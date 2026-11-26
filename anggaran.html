@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anggaran - uMoney</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{ font-family:'Inter',system-ui,sans-serif !important; box-sizing:border-box; }
+  body{ background:#F6F7F9; color:#111827; margin:0; }
+  nav{ max-width:900px !important; margin:16px auto 0 !important; background:#fff !important; border:1px solid #EEF0F3 !important; border-radius:16px !important; padding:14px 20px !important; display:flex !important; justify-content:center !important; gap:28px !important; box-sizing:border-box !important; }
+  nav a{ color:#6B7280; text-decoration:none; font-size:13px; font-weight:500; white-space:nowrap; }
+  nav a.active{ color:#2563EB; font-weight:700; }
+  .container{ max-width:900px !important; margin:0 auto !important; padding:18px 0 60px !important; }
+  .card{ background:#fff; border:1px solid #EEF0F3; border-radius:18px; padding:22px; box-shadow:0 2px 10px rgba(0,0,0,.03); }
+  .top{ display:flex; gap:16px; flex-wrap:wrap; }
+  .donut-wrap{ flex:1; min-width:280px; display:flex; gap:20px; align-items:center; }
+  .donut{ width:150px; height:150px; min-width:150px; border-radius:50%; background:conic-gradient(#2563EB 0deg 0deg, #E5E7EB 0deg 360deg); display:flex; align-items:center; justify-content:center; position:relative; }
+  .donut::before{ content:''; position:absolute; inset:18px; background:#fff; border-radius:50%; }
+  .donut-text{ position:relative; text-align:center; z-index:1; }
+  .donut-text b{ font-size:24px; display:block; letter-spacing:-.5px; }
+  .donut-text span{ font-size:11px; color:#9CA3AF; }
+  .legend{ flex:1; }
+  .legend-row{ display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:7px 0; border-bottom:1px dashed #F3F4F6; }
+  .legend-row:last-child{ border:none; }
+  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:8px; }
+  .stat{ flex:1; min-width:160px; }
+  .stat span{ font-size:12px; color:#6B7280; }
+  .stat b{ display:block; font-size:20px; margin-top:4px; letter-spacing:-.3px; }
+  .stat small{ font-size:11px; color:#9CA3AF; }
+  input,select{ outline:none; } input:focus{ border-color:#2563EB !important; }
+  .item{ background:#fff; border:1px solid #EEF0F3; border-radius:16px; padding:18px; margin-bottom:10px; display:flex; gap:16px; align-items:center; }
+  .mini-donut{ width:56px; height:56px; min-width:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; font-size:11px; font-weight:700; }
+  .mini-donut::before{ content:''; position:absolute; inset:7px; background:#fff; border-radius:50%; }
+  .mini-donut span{ position:relative; z-index:1; }
+  .bar{ height:8px; background:#EDF2F7; border-radius:10px; overflow:hidden; margin-top:8px; }
+  .bar > div{ height:100%; border-radius:10px; transition:width .5s; }
+  .badge{ font-size:11px; font-weight:700; padding:4px 8px; border-radius:20px; white-space:nowrap; }
+  .badge-aman{ background:#DCFCE7; color:#15803D; } .badge-waspada{ background:#FEF3C7; color:#92400E; } .badge-over{ background:#FEE2E2; color:#B91C1C; }
+  .btn-del{ background:#FFF1F2; color:#E11D48; border:none; padding:8px 12px; border-radius:10px; font-weight:600; font-size:12px; cursor:pointer; white-space:nowrap; }
+  @media(max-width:960px){ nav,.container{ max-width:calc(100% - 32px) !important; } nav{ gap:16px !important; } .top{ flex-direction:column; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="tambah.html">Catat Transaksi</a>
+  <a href="riwayat.html">Riwayat</a>
+  <a href="anggaran.html" class="active">Anggaran</a>
+  <a href="about.html">About</a>
+  <a href="login.html">Logout</a>
+</nav>
+
+<div class="container">
+  <div style="padding:4px 2px 16px;">
+    <b style="font-size:22px; letter-spacing:-.3px;">Anggaran Bulan Ini</b>
+    <span style="display:block; font-size:12.5px; color:#8A9BB5; margin-top:4px;" id="subtitleAnggaran">Kontrol pengeluaranmu biar ngga boncos di akhir bulan!!</span>
+  </div>
+
+  <!-- RINGKASAN + DONUT -->
+  <div class="card">
+    <div class="top">
+      <div class="donut-wrap">
+        <div class="donut" id="donutBesar"><div class="donut-text"><b id="persenTotal">0%</b><span>Terpakai</span></div></div>
+        <div class="legend" id="legendBox"></div>
+      </div>
+      <div style="display:flex; gap:12px; flex:1; min-width:280px; flex-wrap:wrap;">
+        <div class="stat" style="background:#EFF6FF; border-radius:14px; padding:14px;"><span>Total Budget</span><b id="totalBudget">Rp 0</b><small id="countKategori">0 kategori</small></div>
+        <div class="stat" style="background:#FEF2F2; border-radius:14px; padding:14px;"><span>Terpakai</span><b id="totalTerpakai" style="color:#DC2626;">Rp 0</b><small>Dari semua kategori</small></div>
+        <div class="stat" style="background:#F0FDF4; border-radius:14px; padding:14px;"><span>Sisa</span><b id="totalSisa" style="color:#16A34A;">Rp 0</b><small>Cukup sampai akhir bulan (kayanya)
+
+        </small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAMBAH -->
+  <div class="card" style="margin-top:14px;">
+    <b style="font-size:14px;">Buat Anggaran Baru</b><br>
+    <span style="font-size:12px; color:#888;">Contoh: Makan - 500000</span>
+    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+      <input id="inputKategoriAnggaran" type="text" placeholder="Buat apa? Contoh: Makan" style="flex:1; min-width:140px; padding:12px; border-radius:12px; border:1.5px solid #E2E8F0; font-size:13px;">
+      <input id="inputBudgetAnggaran" type="number" placeholder="Budget Rp" style="width:150px; padding:12px; border-radius:12px; border:1.5px solid #E2E8F0; font-size:13px;">
+      <button onclick="simpanAnggaran()" style="background:#2563EB; color:white; border:none; padding:12px 22px; border-radius:12px; font-weight:700; cursor:pointer;">Simpan</button>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin:22px 0 12px;">
+    <h3 style="margin:0; font-size:15px;">Detail Per Kategori</h3>
+    <span id="infoDetail" style="font-size:12px; color:#9CA3AF;"></span>
+  </div>
+  <div id="listAnggaran"></div>
+  <div id="emptyAnggaran" class="card" style="text-align:center; color:#6B7280; font-size:13px; line-height:1.6; display:none;">Belum ada anggaran.<br>Buat di atas dulu yuk!</div>
+</div>
+
+<script>
+let currentUser = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || localStorage.getItem('uMoney_lastUser') || 'Firda';
+let keyTransaksi = 'uMoney_' + currentUser;
+let keyAnggaran = 'uMoney_anggaran_' + currentUser;
+let semua = JSON.parse(localStorage.getItem(keyTransaksi) || '[]');
+let daftarAnggaran = [];
+try{ daftarAnggaran = JSON.parse(localStorage.getItem(keyAnggaran) || '[]'); }catch(e){ daftarAnggaran = []; }
+
+let warnaList = ['#2563EB','#16A34A','#F59E0B','#EC4899','#8B5CF6','#06B6D4','#EF4444','#84CC16'];
+function fmt(n){ return 'Rp ' + Number(n||0).toLocaleString('id-ID'); }
+
+function hitungTerpakai(a){
+  let kunci = (a.nama||'').toLowerCase().trim();
+  let total = 0;
+  semua.forEach(i=>{
+    if(i.tipe === 'Pemasukan') return;
+    let k = (i.kategori || i.nama || '').toLowerCase().trim();
+    if(k.includes(kunci) || kunci.includes(k)) total += Number(i.jumlah||0);
+  });
+  return total;
+}
+
+function render(){
+  let box = document.getElementById('listAnggaran');
+  let empty = document.getElementById('emptyAnggaran');
+  if(!daftarAnggaran.length){
+    box.innerHTML = ''; empty.style.display = 'block';
+    document.getElementById('totalBudget').textContent = 'Rp 0';
+    document.getElementById('totalTerpakai').textContent = 'Rp 0';
+    document.getElementById('totalSisa').textContent = 'Rp 0';
+    document.getElementById('persenTotal').textContent = '0%';
+    document.getElementById('donutBesar').style.background = `conic-gradient(#2563EB 0deg 0deg, #E5E7EB 0deg 360deg)`;
+    document.getElementById('legendBox').innerHTML = '<p style="font-size:13px; color:#9CA3AF;">Belum ada data.</p>';
+    document.getElementById('countKategori').textContent = '0 kategori';
+    document.getElementById('infoDetail').textContent = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  let totalBudget = daftarAnggaran.reduce((s,a)=> s + Number(a.budget||0), 0);
+  let totalTerpakai = daftarAnggaran.reduce((s,a)=> s + hitungTerpakai(a), 0);
+  let totalSisa = totalBudget - totalTerpakai;
+  let persenTotal = totalBudget > 0 ? Math.min(100, Math.round(totalTerpakai/totalBudget*100)) : 0;
+
+  document.getElementById('totalBudget').textContent = fmt(totalBudget);
+  document.getElementById('totalTerpakai').textContent = fmt(totalTerpakai);
+  document.getElementById('totalSisa').textContent = fmt(totalSisa);
+  document.getElementById('totalSisa').style.color = totalSisa < 0 ? '#DC2626' : '#16A34A';
+  document.getElementById('persenTotal').textContent = persenTotal + '%';
+  document.getElementById('countKategori').textContent = daftarAnggaran.length + ' kategori';
+  document.getElementById('infoDetail').textContent = daftarAnggaran.length + ' kategori • Total ' + fmt(totalBudget);
+
+  // Donut besar pake conic-gradient per kategori
+  let start = 0, parts = [];
+  daftarAnggaran.forEach((a,i)=>{
+    let deg = totalBudget > 0 ? (Number(a.budget||0)/totalBudget)*360 : 0;
+    parts.push(`${warnaList[i % warnaList.length]} ${start}deg ${start+deg}deg`);
+    start += deg;
+  });
+  document.getElementById('donutBesar').style.background = `conic-gradient(${parts.join(',')}, #E5E7EB 0deg 0deg)`;
+  // Kalau terpakai lebih dari budget, donutnya full merah muda
+  if(totalTerpakai > totalBudget){
+    document.getElementById('donutBesar').style.background = `conic-gradient(#EF4444 0deg 360deg)`;
+  }
+
+  document.getElementById('legendBox').innerHTML = daftarAnggaran.map((a,i)=>{
+    let terpakai = hitungTerpakai(a);
+    let persen = a.budget > 0 ? Math.round(terpakai/a.budget*100) : 0;
+    return `<div class="legend-row"><span><span class="dot" style="background:${warnaList[i % warnaList.length]}"></span>${a.nama}</span><b>${persen}% • ${fmt(terpakai)}</b></div>`;
+  }).join('');
+
+  box.innerHTML = daftarAnggaran.map((a,i)=>{
+    let terpakai = hitungTerpakai(a);
+    let sisa = Number(a.budget||0) - terpakai;
+    let persen = a.budget > 0 ? Math.min(100, Math.round(terpakai/a.budget*100)) : 0;
+    let persenAsli = a.budget > 0 ? Math.round(terpakai/a.budget*100) : 0;
+    let warna = warnaList[i % warnaList.length];
+    let badge = persenAsli >= 100 ? '<span class="badge badge-over">Over Budget</span>' : persenAsli >= 75 ? '<span class="badge badge-waspada">Hampir Habis</span>' : '<span class="badge badge-aman">Aman</span>';
+    let warnaBar = persenAsli >= 100 ? '#EF4444' : persenAsli >= 75 ? '#F59E0B' : warna;
+    return `<div class="item">
+      <div class="mini-donut" style="background:conic-gradient(${warna} 0deg ${persen*3.6}deg, #EDF2F7 ${persen*3.6}deg 360deg);"><span>${persen}%</span></div>
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center;">
+          <div style="display:flex; gap:8px; align-items:center;"><b style="font-size:14px; text-transform:capitalize;">${a.nama}</b> ${badge}</div>
+          <span style="font-size:13px;"><b>${fmt(terpakai)}</b> / ${fmt(a.budget)}</span>
+        </div>
+        <div class="bar"><div style="width:${persen}%; background:${warnaBar};"></div></div>
+        <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:11.5px; color:#888;"><span>Sisa ${fmt(sisa)} • ${persenAsli}% terpakai</span><span>${sisa < 0 ? 'Kelebihan ' + fmt(Math.abs(sisa)) : 'Masih aman'}</span></div>
+      </div>
+      <button class="btn-del" onclick="hapusAnggaran('${a.nama.replace(/'/g,"\\'")}')">Hapus</button>
+    </div>`;
+  }).join('');
+}
+
+function simpanAnggaran(){
+  let n = document.getElementById('inputKategoriAnggaran');
+  let b = document.getElementById('inputBudgetAnggaran');
+  let nama = n.value.trim(); let budget = Number(b.value||0);
+  if(!nama || !budget){ alert('Isi nama & budgetnya dulu ya!'); return; }
+  let ada = daftarAnggaran.find(a=> a.nama.toLowerCase() === nama.toLowerCase());
+  if(ada) ada.budget = budget; else daftarAnggaran.push({nama, budget});
+  localStorage.setItem(keyAnggaran, JSON.stringify(daftarAnggaran));
+  n.value=''; b.value=''; render();
+}
+function hapusAnggaran(nama){
+  if(!confirm('Hapus anggaran ' + nama + '?')) return;
+  daftarAnggaran = daftarAnggaran.filter(a=> a.nama !== nama);
+  localStorage.setItem(keyAnggaran, JSON.stringify(daftarAnggaran));
+  render();
+}
+render();
+</script>
+<style>
+/* === ANGGARAN - SAMAIN KAYAK HOME - HITAM PUTIH BIRU MERAH === */
+
+/* 1. NAVBAR - sama kayak Home */
+.navbar{
+  background: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 6px 6px 0 #111 !important;
+  position: sticky !important;
+  top: 12px !important;
+  z-index: 999 !important;
+}
+.navbar a{
+  padding: 7px 12px !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  color: #111 !important;
+}
+.navbar a.active{
+  background: #111 !important;
+  color: #fff !important;
+}
+.navbar a.logout{
+  background: #ef4444 !important;
+  color: #fff !important;
+}
+
+/* 2. JUDUL */
+h1, h2{
+  color: #111 !important;
+  font-weight: 900 !important;
+  letter-spacing: -1px !important;
+}
+
+/* 3. KOTAK UTAMA ANGGARAN - putih, border hitam tegas */
+.card, .anggaran-card, .box{
+  background: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 6px 6px 0 #e5e7eb !important;
+  border-radius: 16px !important;
+}
+
+/* 4. 3 KOTAK KECIL - TOTAL, TERPAKAI, SISA */
+/* Total Budget = BIRU */
+div[style*="Total Budget"], div:has(> div){
+  border-radius: 12px !important;
+}
+/* Paksa warnanya satu-satu */
+.card > div > div:nth-child(2) > div:nth-child(1){
+  background: #eff6ff !important;
+  border: 1.5px solid #2563eb !important;
+  color: #111 !important;
+}
+.card > div > div:nth-child(2) > div:nth-child(1) b,
+.card > div > div:nth-child(2) > div:nth-child(1) h3{
+  color: #2563eb !important;
+}
+
+/* Terpakai = MERAH */
+.card > div > div:nth-child(2) > div:nth-child(2){
+  background: #fef2f2 !important;
+  border: 1.5px solid #ef4444 !important;
+}
+.card > div > div:nth-child(2) > div:nth-child(2) b,
+.card > div > div:nth-child(2) > div:nth-child(2) h3{
+  color: #ef4444 !important;
+}
+
+/* Sisa = HITAM */
+.card > div > div:nth-child(2) > div:nth-child(3),
+.card > div > div:nth-child(2) > div:nth-child(4){
+  background: #111 !important;
+  border: 1.5px solid #111 !important;
+  color: #fff !important;
+}
+.card > div > div:nth-child(2) > div:nth-child(3) b,
+.card > div > div:nth-child(2) > div:nth-child(3) h3,
+.card > div > div:nth-child(2) > div:nth-child(4) b,
+.card > div > div:nth-child(2) > div:nth-child(4) h3{
+  color: #fff !important;
+}
+
+/* 5. BUAT ANGGARAN BARU - sama kayak Tambah Pemasukan */
+input, select{
+  border: 1.5px solid #111 !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  padding: 13px 14px !important;
+}
+input:focus{
+  outline: none !important;
+  border-color: #2563eb !important;
+  box-shadow: 3px 3px 0 #2563eb !important;
+}
+button, .btn, input[type="submit"]{
+  background: #2563eb !important;
+  color: #fff !important;
+  border: 1.5px solid #111 !important;
+  border-radius: 12px !important;
+  box-shadow: 4px 4px 0 #111 !important;
+  font-weight: 800 !important;
+  transition: 0.15s !important;
+}
+button:hover{
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 6px 6px 0 #111 !important;
+}
+button:active{
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0 #111 !important;
+}
+</style>
+</body>
+</body>
+</html>

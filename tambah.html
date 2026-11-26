@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catat Transaksi - uMoney</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{ font-family:'Inter',system-ui,sans-serif; box-sizing:border-box; margin:0; padding:0; }
+  body{ background:#F6F7F9; color:#111827; }
+  nav{ max-width:900px; margin:16px auto 0; background:#fff; border:1px solid #EEF0F3; border-radius:16px; padding:14px 20px; display:flex; justify-content:center; gap:28px; }
+    *{ font-family:'Inter',system-ui,sans-serif !important; box-sizing:border-box; }
+  nav a{ color:#6B7280; text-decoration:none; font-size:13px; font-weight:500; white-space:nowrap; }
+  nav a.active{ color:#2563EB; font-weight:700; }
+  nav a:last-child{ color:#E11D48; font-weight:600; }
+  .container{ max-width:900px; margin:0 auto; padding:18px 20px 60px; }
+  .hero{ background:linear-gradient(135deg,#2563EB,#1D4ED8); color:#fff; padding:28px; border-radius:20px; position:relative; overflow:hidden; }
+  .hero::after{ content:''; position:absolute; left:0; bottom:0; width:100%; height:3px; background:linear-gradient(90deg,#0F172A, transparent); }
+  .hero::before{ content:''; position:absolute; right:-40px; top:-40px; width:180px; height:180px; background:rgba(255,255,255,.12); border-radius:50%; }
+  .hero small{ font-size:12px; letter-spacing:1px; text-transform:uppercase; color:#DBEAFE; font-weight:700; }
+  .hero h1{ font-size:38px; margin:10px 0 14px; letter-spacing:-.8px; position:relative; z-index:1; }
+  .hero .pill{ display:inline-flex; gap:8px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.22); padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:600; position:relative; z-index:1; }
+  .hero .pill i{ width:6px; height:6px; background:#FDE68A; border-radius:50%; display:block; }
+  .hero .big-letter{ position:absolute; right:28px; top:50%; transform:translateY(-50%); font-size:88px; font-weight:800; color:rgba(255,255,255,.16); }
+  .main{ background:#fff; border:1px solid #EEF0F3; border-radius:20px; padding:26px; margin-top:18px; display:flex; gap:26px; box-shadow:0 2px 10px rgba(0,0,0,.03); }
+  .left{ flex:1.25; } .right{ flex:1; }
+  label{ font-size:13px; font-weight:700; display:block; margin:20px 0 10px; color:#111827; } label:first-child{ margin-top:0; }
+  .tipe-wrap{ display:flex; gap:12px; }
+  .tipe{ flex:1; border:1.5px solid #E5E7EB; border-radius:14px; padding:18px 12px; text-align:center; cursor:pointer; background:#fff; transition:.2s; }
+  .tipe span{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:12px; font-weight:800; background:#EFF6FF; color:#2563EB; }
+  .tipe b{ display:block; font-size:14px; } .tipe small{ font-size:12px; color:#9CA3AF; }
+  .tipe.active-masuk{ border-color:#2563EB; background:#EFF6FF; } .tipe.active-masuk span{ background:#2563EB; color:#fff; } .tipe.active-masuk b{ color:#1D4ED8; }
+  .tipe.active-keluar{ border-color:#0F172A; background:#0F172A; color:#fff; } .tipe.active-keluar small{ color:#CBD5E1; } .tipe.active-keluar span{ background:#fff; color:#0F172A; }
+  input,select,textarea{ width:100%; padding:13px 14px; border:1.5px solid #E5E7EB; border-radius:12px; font-size:14px; background:#FBFCFD; outline:none; }
+  input:focus,select:focus,textarea:focus{ border-color:#2563EB; background:#fff; box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+  .row2{ display:flex; gap:12px; } .row2 > div{ flex:1; } .row2 label{ margin-top:20px; }
+  .kat-wrap{ display:flex; flex-wrap:wrap; gap:8px; }
+  .kat{ padding:8px 14px; border-radius:999px; border:1.5px solid #E5E7EB; background:#fff; font-size:13px; font-weight:600; cursor:pointer; color:#334155; }
+  .kat.active{ background:#0F172A; color:#fff; border-color:#0F172A; }
+  .btn-simpan{ width:100%; background:#0F172A; color:#fff; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:14px; margin-top:22px; }
+  .btn-simpan:hover{ background:#2563EB; }
+  .summary{ border:1px solid #EEF0F3; border-radius:16px; background:#fff; overflow:hidden; height:fit-content; }
+  .summary h3{ font-size:14px; padding:16px 20px; background:#0F172A; color:#fff; display:flex; justify-content:space-between; }
+  .summary h3 span{ font-size:10px; font-weight:700; letter-spacing:1px; color:#fff; background:#2563EB; padding:5px 8px; border-radius:999px; }
+  .sum-row{ display:flex; justify-content:space-between; padding:12px 20px; border-bottom:1px solid #F9FAFB; font-size:13.5px; }
+  .sum-row span:first-child{ color:#6B7280; } .sum-row b{ font-weight:600; }
+  .sum-total{ display:flex; justify-content:space-between; padding:16px 20px; } .sum-total b{ font-size:19px; color:#2563EB; }
+  @media(max-width:820px){ .main{ flex-direction:column; } nav{ gap:14px; overflow-x:auto; justify-content:flex-start; max-width:calc(100% - 32px); } .container{ max-width:calc(100% - 32px); padding:18px 0 60px; } .hero .big-letter{ display:none; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="tambah.html" class="active">Catat Transaksi</a>
+  <a href="riwayat.html">Riwayat</a>
+  <a href="anggaran.html">Anggaran</a>
+  <a href="about.html">About</a>
+  <a href="login.html" style="color:#E11D48; font-weight:600;">Logout</a>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <small>Total Saldo Kamu</small>
+    <h1 id="totalSaldoTambah">Rp 0</h1>
+    <div class="pill"><i></i><span id="pillKategori">Makanan • Belum diisi</span></div>
+    <div class="big-letter">Rp</div>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <label>Tipe Transaksi</label>
+      <div class="tipe-wrap">
+        <div class="tipe masuk" id="btnMasuk" onclick="pilihTipe('Pemasukan')"><span>IN</span><b>Pemasukan</b><small>Uang masuk</small></div>
+        <div class="tipe keluar active-keluar" id="btnKeluar" onclick="pilihTipe('Pengeluaran')"><span>OUT</span><b>Pengeluaran</b><small>Uang keluar</small></div>
+      </div>
+
+      <label>Kategori</label>
+      <div class="kat-wrap" id="katWrap">
+        <button type="button" class="kat active" onclick="pilihKategori(this,'Makanan')">Makanan</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Transportasi')">Transportasi</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Jajan')">Jajan</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Hiburan')">Hiburan</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Belanja')">Belanja</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Skincare</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Kost</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Listrik</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Self reward</S></button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Healing</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Parkir</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Kasih keluarga</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Bayar kuliah</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Cicilan</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Konser</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Tabungan</button>
+        <button type="button" class="kat" onclick="pilihKategori(this,'Lainnya')">Lainnya</button>
+      </div>
+
+      <label>Keterangan pembelian</label>
+      <input id="inputNama" type="text" placeholder="Contoh: Beli Seblak" oninput="updateRingkasan()">
+
+      <div class="row2">
+        <div><label>Jumlah (Rp)</label><input id="inputJumlah" type="number" placeholder="contoh: 50.000
+          " oninput="updateRingkasan()"></div>
+        <div><label>PIN Dompet</label><input id="inputPin" type="password" placeholder="PIN (PIN saat masuk website)" maxlength="6"></div>
+      </div>
+
+      <label>Catatan <span style="font-weight:400; color:#9CA3AF;">(opsional)</span></label>
+      <textarea id="inputCatatan" rows="2" placeholder="Tambah catatan kalau perlu..." oninput="updateRingkasan()"></textarea>
+
+      <button class="btn-simpan keluar" id="btnSimpan" onclick="simpanTransaksi()">Simpan Transaksi</button>
+    </div>
+
+    <div class="right">
+      <div class="summary">
+        <h3>Ringkasan Transaksi <span></span></h3>
+        <div class="sum-row"><span>Jenis</span><b id="ringJenis">Pengeluaran</b></div>
+        <div class="sum-row"><span>Kategori</span><b id="ringKategori">Makanan</b></div>
+        <div class="sum-row"><span>Keterangan pembelian </span><b id="ringNama">Belum diisi</b></div>
+        <div class="sum-row"><span>Catatan</span><b id="ringCatatan">-</b></div>
+        <div class="sum-total"><span style="font-size:13px; color:#6B7280;">Total</span><b id="ringTotal">Rp 0</b></div>
+      </div>
+
+      <!-- 3 KARTU PINDAH KE SINI, DI BAWAH TOTAL -->
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+        <div style="background:#fff; border:1px solid #EEF0F3; border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+          <div><span style="font-size:12px; color:#6B7280;">Keluar Hari Ini</span><b id="keluarHariIni" style="display:block; font-size:16px; margin-top:2px;">Rp 0</b></div>
+          <span id="countHariIni" style="font-size:11px; color:#9CA3AF; background:#F3F4F6; padding:5px 8px; border-radius:999px; white-space:nowrap;">0 transaksi</span>
+        </div>
+        <div style="background:#0F172A; border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+          <div><span style="font-size:12px; color:#94A3B8;">Sisa Saldo Sekarang</span><b id="sisaSekarangBawah" style="display:block; font-size:16px; margin-top:2px; color:#fff;">Rp 0</b></div>
+          <span style="font-size:11px; color:#fff; background:#2563EB; padding:5px 8px; border-radius:999px; white-space:nowrap;"></span>
+        </div>
+        <div style="background:#fff; border:1px solid #EEF0F3; border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="min-width:0;"><span style="font-size:12px; color:#6B7280;">Transaksi Terakhir</span><b id="terakhirBawah" style="display:block; font-size:14px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Belum ada</b></div>
+          <span id="terakhirNominal" style="font-size:12px; color:#2563EB; font-weight:700; white-space:nowrap; margin-left:10px;">-</span>
+          <!-- TAMBAHAN BIAR GAK KOSONG - PASTE DI BAWAH TRANSAKSI TERAKHIR -->
+        </div>
+</div>
+
+<script>
+let currentUser = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || localStorage.getItem('uMoney_lastUser') || 'Firda';
+let keyTransaksi = 'uMoney_' + currentUser;
+let semua = JSON.parse(localStorage.getItem(keyTransaksi) || '[]');
+let tipeAktif = 'Pengeluaran';
+let kategoriAktif = 'Makanan';
+function fmt(n){ return 'Rp ' + Number(n||0).toLocaleString('id-ID'); }
+function hitungSaldo(){ let masuk=0, keluar=0; semua.forEach(i=>{ if(i.tipe==='Pemasukan') masuk+=Number(i.jumlah||0); else keluar+=Number(i.jumlah||0); }); return masuk-keluar; }
+function renderSaldo(){ document.getElementById('totalSaldoTambah').textContent = fmt(hitungSaldo()); }
+function pilihTipe(t){
+  tipeAktif = t;
+  document.getElementById('btnMasuk').className = 'tipe masuk' + (t==='Pemasukan' ? ' active-masuk' : '');
+  document.getElementById('btnKeluar').className = 'tipe keluar' + (t==='Pengeluaran' ? ' active-keluar' : '');
+  document.getElementById('btnSimpan').className = 'btn-simpan' + (t==='Pengeluaran' ? ' keluar' : '');
+  document.getElementById('btnSimpan').textContent = 'Simpan ' + t;
+  updateRingkasan();
+}
+function pilihKategori(btn, kat){
+  kategoriAktif = kat;
+  document.querySelectorAll('.kat').forEach(b=> b.classList.remove('active'));
+  btn.classList.add('active');
+  updateRingkasan();
+}
+function updateRingkasan(){
+  let nama = document.getElementById('inputNama').value.trim();
+  let jml = Number(document.getElementById('inputJumlah').value || 0);
+  let cat = document.getElementById('inputCatatan').value.trim();
+  document.getElementById('ringJenis').textContent = tipeAktif;
+  document.getElementById('ringJenis').style.color = tipeAktif==='Pemasukan' ? '#15803D' : '#B91C1C';
+  document.getElementById('ringKategori').textContent = kategoriAktif;
+  document.getElementById('ringNama').textContent = nama || 'Belum diisi';
+  document.getElementById('ringCatatan').textContent = cat || '-';
+  document.getElementById('ringTotal').textContent = fmt(jml);
+  document.getElementById('pillKategori').textContent = kategoriAktif + ' • ' + (nama || 'Belum diisi');
+}
+function simpanTransaksi(){
+  let nama = document.getElementById('inputNama').value.trim();
+  let jml = Number(document.getElementById('inputJumlah').value || 0);
+  let cat = document.getElementById('inputCatatan').value.trim();
+  if(!nama || !jml){ alert('Isi nama & jumlahnya dulu ya!'); return; }
+  if(tipeAktif==='Pengeluaran' && jml > hitungSaldo()){ if(!confirm('Saldo kamu kurang, tetap lanjut?')) return; }
+  semua.push({ nama, jumlah:jml, kategori:kategoriAktif, tipe:tipeAktif, catatan:cat, tanggal:new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) });
+  localStorage.setItem(keyTransaksi, JSON.stringify(semua));
+  alert('Transaksi tersimpan!');
+  window.location.href = 'index.html';
+}
+function renderBawah(){
+  let hariIniStr = new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+  let hariIni = semua.filter(i => i.tanggal === hariIniStr && i.tipe !== 'Pemasukan');
+  let totalHariIni = hariIni.reduce((s,i)=> s + Number(i.jumlah||0), 0);
+  document.getElementById('keluarHariIni').textContent = fmt(totalHariIni);
+  document.getElementById('countHariIni').textContent = hariIni.length + ' transaksi hari ini';
+  document.getElementById('sisaSekarangBawah').textContent = fmt(hitungSaldo());
+  let last = semua[semua.length - 1];
+  if(last){
+    document.getElementById('terakhirBawah').textContent = last.nama;
+    document.getElementById('terakhirNominal').textContent = (last.tipe==='Pemasukan'?'+ ':'- ') + fmt(last.jumlah);
+  }
+}
+renderSaldo(); updateRingkasan(); renderBawah();
+</script>
+<style>
+
+/* === FIX CATAT TRANSAKSI - FUNGSI BALIK + WARNA TETEP === */
+
+/* 1. NAVBAR */
+.navbar{
+  background: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 6px 6px 0 #111 !important;
+  position: sticky !important;
+  top: 12px !important;
+  z-index: 999 !important;
+}
+.navbar a.active{
+  background: #111 !important;
+  color: #fff !important;
+}
+.navbar a.logout{
+  background: #ef4444 !important;
+  color: #fff !important;
+}
+
+/* 2. KOTAK TOTAL SALDO - HITAM SOLID */
+.saldo-card, .card-saldo, .balance-card{
+  background: #111 !important;
+  border-left: 8px solid #2563eb !important;
+  box-shadow: 6px 6px 0 #2563eb !important;
+}
+
+/* 3. KOTAK PUTIH BESAR */
+.card, .form-card, .box{
+  background: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 6px 6px 0 #e5e7eb !important;
+  border-radius: 16px !important;
+}
+
+/* 4. TIPE TRANSAKSI - INI YANG DIPERBAIKI */
+/* Keadaan biasa - putih */
+.tipe-transaksi button, .tipe button, .in-out button{
+  background: #fff !important;
+  color: #111 !important;
+  border: 1.5px solid #111 !important;
+}
+
+/* Kalo DIPENCET / ACTIVE - ini harus di bawah, biar menang */
+button.active, .tipe.active, .pilihan.active, .selected{
+  background: #111 !important;
+  color: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 4px 4px 0 #2563eb !important;
+}
+
+/* Khusus IN yang aktif = BIRU, biar beda sama OUT */
+button.active:has(.in), .in.active, button[data-type="in"].active, button[data-tipe="pemasukan"].active{
+  background: #2563eb !important;
+  box-shadow: 4px 4px 0 #111 !important;
+}
+
+/* 5. KATEGORI - yang kepilih jadi hitam */
+.kategori button{
+  background: #fff !important;
+  color: #111 !important;
+  border: 1.5px solid #111 !important;
+}
+.kategori button.active, .kategori button.selected{
+  background: #111 !important;
+  color: #fff !important;
+}
+
+/* 6. INPUT & TOMBOL SIMPAN */
+input, select, textarea{
+  border: 1.5px solid #111 !important;
+  border-radius: 10px !important;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: #2563eb !important;
+  box-shadow: 3px 3px 0 #2563eb !important;
+  outline: none !important;
+}
+button[type="submit"], .btn-simpan{
+  background: #2563eb !important;
+  color: #fff !important;
+  border: 1.5px solid #111 !important;
+  box-shadow: 4px 4px 0 #111 !important;
+}
+</style>
+</body>
+</body>
+</html>

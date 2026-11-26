@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tentang uMoney</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif}
+  body{background:#f2f6ff;padding:20px 0 40px}
+
+  /* NAV - UKURAN TETAP */
+  .navbar{
+    max-width:900px;margin:0 auto 20px;
+    background:#fff;border-radius:999px;
+    display:flex;justify-content:center;gap:30px;
+    padding:14px 20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  }
+  .navbar a{color:#1a1a1a;text-decoration:none;font-weight:600;font-size:14px}
+  .navbar a.active{color:#2563eb}
+  .navbar a.logout{color:#ef4444}
+
+  /* CONTAINER - UKURAN TETAP */
+  .container{max-width:900px;margin:0 auto;padding:0 20px}
+
+  /* HERO - HITAM + BIRU */
+  .hero{
+    background:linear-gradient(135deg, #0a0a0a 0%, #0f172a 45%, #2563eb 100%);
+    border-radius:18px;padding:32px 28px;text-align:center;color:#fff;
+    box-shadow:0 12px 30px rgba(37,99,235,0.25);
+    position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;width:220px;height:220px;
+    background:rgba(255,255,255,0.08);border-radius:50%;
+    right:-60px;top:-80px;
+  }
+  .hero h1{font-size:26px;letter-spacing:-0.5px;position:relative;z-index:1}
+  .hero h1 span{color:#60a5fa}
+  .hero p{margin-top:10px;font-size:14px;line-height:1.6;color:#dbeafe;max-width:650px;margin-left:auto;margin-right:auto;position:relative;z-index:1}
+
+  /* CARD PUTIH + LIST HITAM */
+  .card{
+    background:#fff;border-radius:16px;padding:24px 26px;margin-top:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.05);
+    border-left:5px solid #111;
+  }
+  .card.blue{border-left-color:#2563eb}
+  .card h2{font-size:17px;color:#111;display:flex;align-items:center;gap:10px}
+  .card h2::before{content:"";width:8px;height:22px;background:#2563eb;border-radius:10px;display:inline-block}
+  .card.blue h2::before{background:#111}
+
+  .profil{margin-top:16px}
+  .row{
+    display:flex;justify-content:space-between;padding:12px 0;
+    border-bottom:1px dashed #e5e7eb;font-size:14px;
+  }
+  .row:last-child{border-bottom:none}
+  .row b{color:#111}
+  .row span{color:#374151;text-align:right}
+
+  /* FITUR */
+  .fitur-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .fitur{
+    background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:16px;
+  }
+  .fitur h3{font-size:14px;color:#111;margin-bottom:6px}
+  .fitur p{font-size:13px;color:#6b7280;line-height:1.5}
+  .badge{
+    display:inline-block;background:#111;color:#fff;
+    font-size:11px;padding:4px 10px;border-radius:999px;
+    font-weight:700;letter-spacing:0.5px;margin-bottom:10px;
+  }
+  .badge.blue{background:#2563eb}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html">Home</a>
+  <a href="transaksi.html">Catat Transaksi</a>
+  <a href="riwayat.html">Riwayat</a>
+  <a href="anggaran.html">Anggaran</a>
+  <a href="about.html" class="active">About</a>
+  <a href="login.html" class="logout">Logout</a>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <h1>Tentang <span>uMoney</span></h1>
+    <p>uMoney dibuat untuk membantu semua generasi mencatat pemasukan dan pengeluaran sehari-hari agar mereka dapat mengetahui keuangan mereka, dan berpikir mereka boros atau tidak, teratur atau tidak, bisa mengelola keuangan atau tidak, atau hal lainnya yang bisa membuat mereka lebih cerdas untuk mengatur keuangan.</p>
+  </div>
+
+  <div class="card">
+    <h2>Profil Pembuat</h2>
+    <div class="profil">
+      <div class="row"><b>Dibuat oleh</b><span>Firda Maulidia Rahmah</span></div>
+      <div class="row"><b>Student</b><span>President University</span></div>
+      <div class="row"><b>Mata Kuliah</b><span>Web Design</span></div>
+      <div class="row"><b>Project</b><span>uMoney - Website Pencatat Pemasukan & Pengeluaran</span></div>
+    </div>
+  </div>
+
+<div class="card blue">
+  <h2>Fitur uMoney</h2>
+  <div class="fitur-grid">
+    <div class="fitur">
+      <span class="badge">01</span>
+      <h3>Catat Transaksi</h3>
+      <p>Catat pemasukan & pengeluaran harian dengan cepat dan rapi.</p>
+    </div>
+    <div class="fitur">
+      <span class="badge blue">02</span>
+      <h3>Riwayat & Laporan</h3>
+      <p>Lihat semua riwayat transaksi dan total keuanganmu.</p>
+    </div>
+    <div class="fitur">
+      <span class="badge blue">03</span>
+      <h3>Kelola Anggaran</h3>
+      <p>Atur batas anggaran bulanan biar ngga kebablasan jajan.</p>
+    </div>
+    <div class="fitur">
+      <span class="badge">04</span>
+      <h3>Dashboard Home</h3>
+      <p>Pantau saldo, total pemasukan & pengeluaran di satu halaman.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 1. STATISTIK -->
+<div class="card" style="border-left-color:#2563eb">
+  <h2>Kenapa Harus uMoney?</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px;text-align:center">
+    <div style="background:#111;color:#fff;padding:18px 10px;border-radius:12px">
+      <div style="font-size:22px;font-weight:800">Simple</div>
+      <div style="font-size:12px;color:#cbd5e1;margin-top:4px">Tanpa Ribet, Langsung Catat</div>
+    </div>
+    <div style="background:#fff;border:2px solid #111;padding:16px 10px;border-radius:12px">
+      <div style="font-size:22px;font-weight:800;color:#111">Jelas</div>
+      <div style="font-size:12px;color:#6b7280;margin-top:4px">Laporan Rapi & Mudah Dibaca</div>
+    </div>
+    <div style="background:#2563eb;color:#fff;padding:18px 10px;border-radius:12px">
+      <div style="font-size:22px;font-weight:800">Hemat</div>
+      <div style="font-size:12px;color:#dbeafe;margin-top:4px">Bantu Kontrol Pengeluaran</div>
+    </div>
+  </div>
+</div>
+
+  <!-- 2. VISI MISI -->
+  <div class="card">
+    <h2>Visi & Misi Kami</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+      <div style="background:#0f172a;color:#fff;padding:18px;border-radius:12px">
+        <span class="badge blue">VISI</span>
+        <p style="font-size:13px;line-height:1.6;color:#e2e8f0">Menjadi teman keuangan paling simple untuk mahasiswa agar tidak lagi kehabisan uang di akhir bulan.</p>
+      </div>
+      <div style="background:#f8fafc;border:1px solid #e5e7eb;padding:18px;border-radius:12px">
+        <span class="badge">MISI</span>
+        <p style="font-size:13px;line-height:1.6;color:#475569">1. Memudahkan pencatatan keuangan harian<br>2. Memberi laporan yang jelas & jujur<br>3. Membiasakan mengatur keuangan sejak muda</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CARA KERJA -->
+<div class="card blue">
+  <h2>Cara Kerja uMoney</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+    <div class="fitur"><span class="badge">LANGKAH 1</span><h3>Catat Dulu</h3><p>Abis jajan atau dapet duit, langsung catat aja di uMoney. Jangan ditunda, nanti lupa.</p></div>
+    <div class="fitur"><span class="badge blue">LANGKAH 2</span><h3>Atur Budget-nya</h3><p>Tentuin jatah jajan lu sebulan di menu Anggaran, biar gak kalap pas awal bulan.</p></div>
+    <div class="fitur"><span class="badge blue">LANGKAH 3</span><h3>Pantau Terus</h3><p>Cek di Home & Riwayat, uang lu larinya kemana aja. Kalo udah mau abis, ketauan langsung.</p></div>
+    <div class="fitur"><span class="badge">LANGKAH 4</span><h3>Evaluasi</h3><p>Kalo udah tau kebiasaan boros lu, pelan-pelan bisa mulai nabung. Ngga kerasa, duit ngumpul sendiri.</p></div>
+  </div>
+</div>
+
+  <!-- 4. TEKNOLOGI + QUOTE PENUTUP -->
+  <div class="card">
+    <h2>Quotes</h2>
+    <div style="margin-top:18px;background:#111;color:#fff;padding:20px;border-radius:12px;text-align:center">
+      <p style="font-size:14px;font-style:italic;line-height:1.6">"Arti kekayaan: Kekayaan adalah uang yang tidak terlihat dan kendali atas waktu anda."</p>
+      <p style="font-size:11px;color:#94a3b8;margin-top:10px;letter-spacing:1px">— Morgan Housel —</p>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* === uMoney THEME - HITAM, PUTIH, BIRU, MERAH === */
+/* Hitam = Teks & Navigasi / Tegas */
+/* Putih = Background / Bersih */
+/* Biru = Uang Masuk / Aksi Utama / Aman */
+/* Merah = Uang Keluar / Bahaya / Hapus */
+
+/* === SAMAIN SEMUA FONT - JANGAN BEDA-BEDA === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+  font-family:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+  letter-spacing:0 !important;
+}
+
+h1,h2,h3,b,strong{
+  font-family:'Inter', system-ui, sans-serif !important;
+  font-weight:700 !important;
+}
+
+p,span,small,a,button,input,select{
+  font-family:'Inter', system-ui, sans-serif !important;
+}
+:root{
+  --hitam:#111111;
+  --hitam-2:#1E293B;
+  --putih:#FFFFFF;
+  --putih-2:#F8FAFC;
+  --biru:#2563EB;
+  --biru-muda:#DBEAFE;
+  --biru-gradient:linear-gradient(135deg,#111111,#2563EB);
+  --merah:#EF4444;
+  --merah-muda:#FEE2E2;
+}
+
+/* === DASAR - SEMUA HALAMAN === */
+body{ background:var(--putih-2) !important; color:var(--hitam) !important; }
+h1,h2,h3,b{ color:var(--hitam) !important; }
+
+/* === NAV - HITAM JADI PEMBEDA === */
+nav{
+  background:var(--hitam) !important;
+  box-shadow:0 4px 20px rgba(0,0,0,.25) !important;
+}
+nav a{ color:#CBD5E1 !important; }
+nav a.active, nav a:hover{
+  background:var(--biru) !important;
+  color:white !important;
+}
+
+/* === KARTU UTAMA - PUTIH BERSIH === */
+.container > div, .card, .box{
+  background:var(--hitam-2) !important;
+}
+
+/* === HOME / INDEX - BIRU = UANG MASUK, MERAH = UANG KELUAR === */
+/* Saldo / Total */
+#totalSaldo, .saldo, .total-saldo{
+  color:var(--hitam) !important;
+}
+/* Kotak Pemasukan = Biru */
+#totalMasuk, .pemasukan, .plus, .icon-blue, .btn-pemasukan{
+  color:var(--biru) !important;
+  background:var(--biru-muda) !important;
+  border-color:var(--biru) !important;
+}
+/* Kotak Pengeluaran = Merah */
+#totalKeluar, .pengeluaran, .minus, .icon-red, .btn-pengeluaran{
+  color:var(--merah) !important;
+  background:var(--merah-muda) !important;
+  border-color:var(--merah) !important;
+}
+/* Sisa Nominal = Hitam + Biru */
+#sisaNominal, .sisa{
+  background:var(--biru-gradient) !important;
+  color:white !important;
+}
+
+/* === TOMBOL === */
+/* Tombol Utama / Simpan / Masuk = Hitam ke Biru */
+button[onclick*="simpan"], button[onclick*="Simpan"], button[onclick*="tambah"], button[onclick*="login"], .btn-masuk, .btn-utama{
+  background:var(--biru-gradient) !important;
+  color:white !important;
+}
+/* Tombol Hapus / Reset = Merah, biar kerasa bahaya */
+button[onclick*="hapus"], button[onclick*="Hapus"], button[onclick*="reset"], button[onclick*="Reset"]{
+  background:var(--merah) !important;
+  color:white !important;
+}
+/* Tombol Simpan Jadwal = Biru */
+button[onclick*="simpanSettingReset"]{
+  background:var(--biru) !important;
+  color:white !important;
+}
+
+/* === RIWAYAT === */
+#totalMasukRiwayat{ color:var(--biru) !important; }
+#totalKeluarRiwayat{ color:var(--merah) !important; }
+#sisaRiwayat{ color:white !important; }
+#barRiwayat{ background:linear-gradient(90deg,var(--biru),var(--merah)) !important; }
+/* Filter aktif = Hitam, biar tegas */
+.btn-filter.active{
+  background:var(--hitam) !important;
+  color:white !important;
+}
+
+/* === ANGGARAN === */
+/* Anggaran Aman = Biru, Over Budget = Merah */
+.anggaran-item{ border-left:4px solid var(--biru) !important; }
+.anggaran-item.over, .anggaran-item.bahaya{
+  border-left:4px solid var(--merah) !important;
+}
+
+/* === TAMBAH TRANSAKSI === */
+input:focus, select:focus, textarea:focus{
+  border-color:var(--biru) !important;
+  box-shadow:0 0 0 3px rgba(37,99,235,.15) !important;
+  outline:none !important;
+}
+
+/* === ARSIP - HITAM BIAR BEDA DARI TRANSAKSI AKTIF === */
+#arsipRiwayat details{
+  border:1px solid #E2E8F0 !important;
+  border-left:4px solid var(--hitam) !important;
+}
+#arsipRiwayat summary span:first-child{
+  color:var(--hitam) !important;
+}
+
+/* === LOGIN - TETEP ELEGAN, HITAM + BIRU === */
+.btn{ background:var(--hitam) !important; }
+.btn:hover{ background:var(--biru) !important; }
+/* === FIX TULISAN GAK KELIATAN === */
+/* Kartu promo krem - tulisannya harus hitam, bukan putih */
+div[style*="FEF3C7"], div[style*="FFF7ED"], div[style*="FEF9C3"]{
+  background:#FEF3C7 !important;
+}
+div[style*="FEF3C7"] *, div[style*="FFF7ED"] *, div[style*="FEF9C3"] *{
+  color:#111111 !important;
+}
+/* Khusus judul promo */
+div[style*="FEF3C7"] b, div[style*="FEF3C7"] strong{
+  color:#111111 !important;
+}
+/* Sisa Nominal yang gradient - tulisannya tetep putih, ini bener */
+#sisaRiwayat, #sisaNominal{
+  color:white !important;
+}
+/* Jangan paksa semua b jadi hitam kalau dia di dalam kartu berwarna */
+div[style*="4285F4"] *, div[style*="2563EB"] *, div[style*="gradient"] *{
+  color:white !important;
+}
+/* Link Catat dulu yuk - jangan putih */
+a[href*="tambah"], #listRiwayatFull a{
+  color:#2563EB !important;
+}

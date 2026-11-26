@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uMoney - Home</title>
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, sans-serif; }
+  body{ background:#F6F7F9; color:#111827; }
+  *{ font-family:'Inter',system-ui,sans-serif !important; box-sizing:border-box; }
+  body{ background:#F6F7F9; color:#111827; margin:0; }
+  nav{ max-width:900px !important; margin:16px auto 0 !important; background:#fff !important; border:1px solid #EEF0F3 !important; border-radius:16px !important; padding:14px 20px !important; display:flex !important; justify-content:center !important; gap:28px !important; box-sizing:border-box !important; }
+  nav a{ color:#6B7280; text-decoration:none; font-size:13px; font-weight:500; white-space:nowrap; }
+  nav a.active{ color:#2563EB; font-weight:700; }
+  .container{ max-width:900px; margin:0 auto; padding:18px 20px 60px; }
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; gap:10px; }
+  .page-head h1{ font-size:21px; letter-spacing:-.3px; }
+  .page-head p{ font-size:13px; color:#6B7280; margin-top:4px; }
+  .head-right{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .profile{ background:#fff; border:1px solid #EEF0F3; border-radius:999px; padding:6px 10px 6px 6px; display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; box-shadow:0 2px 10px rgba(0,0,0,.03); }
+  .avatar{ width:28px; height:28px; border-radius:50%; background:#DBEAFE; color:#1D4ED8; display:flex; align-items:center; justify-content:center; font-weight:800; }
+  .btn-reset{ background:#fff; border:1px solid #FECACA; color:#DC2626; padding:8px 12px; border-radius:999px; font-size:12px; font-weight:600; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.03); }
+  .btn-reset:hover{ background:#FEF2F2; }
+  .hero{ background:linear-gradient(135deg,#2563EB,#1D4ED8); color:#fff; border-radius:16px; padding:20px; position:relative; overflow:hidden; margin-bottom:12px; box-shadow:0 12px 28px rgba(37,99,235,.20); }
+  .hero::before{ content:""; position:absolute; right:-20px; top:-20px; width:110px; height:110px; background:rgba(255,255,255,.12); border-radius:50%; }
+  .hero::after{ content:""; position:absolute; right:50px; bottom:-30px; width:70px; height:70px; background:rgba(255,255,255,.08); border-radius:50%; }
+  .hero-label{ font-size:12.5px; color:#DBEAFE; position:relative; }
+  .hero-saldo{ font-size:27px; margin:8px 0 6px; position:relative; letter-spacing:-.5px; }
+  .hero-sub{ font-size:12.5px; color:#DBEAFE; position:relative; }
+  .hero-stats{ display:flex; gap:8px; margin-top:16px; position:relative; }
+  .hero-stats div{ flex:1; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:10px 10px; }
+  .hero-stats span{ display:block; font-size:11px; color:#DBEAFE; }
+  .hero-stats b{ display:block; font-size:13.5px; margin-top:3px; word-break:break-all; }
+  .hero-bar{ height:6px; background:rgba(255,255,255,.22); border-radius:10px; margin-top:14px; overflow:hidden; position:relative; }
+  .hero-fill{ height:100%; background:#fff; border-radius:10px; transition:.3s; }
+  .card{ background:#fff; border:1px solid #EEF0F3; border-radius:16px; padding:18px; margin-bottom:12px; box-shadow:0 2px 10px rgba(0,0,0,.02); }
+  .card h3{ font-size:15px; margin-bottom:4px; }
+  .card p{ font-size:12.5px; color:#6B7280; margin-bottom:12px; }
+  label{ font-size:12.5px; font-weight:600; display:block; margin:10px 0 6px; }
+  input, select{ width:100%; padding:11px 12px; border:1.5px solid #E5E7EB; border-radius:10px; font-size:14px; background:#F9FAFB; outline:none; }
+  input:focus, select:focus{ background:#fff; border-color:#2563EB; box-shadow:0 0 0 4px rgba(37,99,235,.10); }
+  .row{ display:flex; gap:10px; }
+  .row > div{ flex:1; }
+  .btn-green{ width:100%; margin-top:14px; background:#16A34A; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; }
+  .btn-green:hover{ background:#15803D; }
+  .actions{ display:flex; gap:8px; margin-bottom:12px; }
+  .actions a{ flex:1; text-align:center; padding:12px 6px; border-radius:12px; font-size:12.5px; font-weight:600; text-decoration:none; }
+  .actions a:first-child{ background:#0F172A; color:#fff; }
+  .actions a:not(:first-child){ background:#fff; color:#111827; border:1px solid #E5E7EB; }
+  .anggaran-item{ padding:10px 0; border-bottom:1px solid #F3F4F6; font-size:13.5px; }
+  .anggaran-item:last-child{ border:none; }
+  .bar{ height:6px; background:#F3F4F6; border-radius:10px; margin-top:6px; overflow:hidden; }
+  .fill{ height:100%; border-radius:10px; }
+  .tx{ display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #F3F4F6; gap:10px; }
+  .tx:last-child{ border:none; }
+  .tx-left{ display:flex; gap:10px; align-items:center; min-width:0; }
+  .tx-ico{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .tx b{ font-size:13.5px; }
+  .tx span{ font-size:12px; color:#9CA3AF; display:block; }
+  .empty{ text-align:center; padding:22px 0 8px; color:#9CA3AF; font-size:13.5px; }
+  .empty-big{ font-size:32px; margin-bottom:6px; }
+  .link{ font-size:13px; color:#2563EB; font-weight:600; text-decoration:none; white-space:nowrap; }
+  .sec-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:10px; }
+  .sec-head h3{ margin:0; }
+  .overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:99; align-items:center; justify-content:center; padding:16px; }
+  .overlay.show{ display:flex; }
+  .modal{ background:#fff; width:100%; max-width:420px; border-radius:16px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,.2); }
+  .modal h3{ font-size:16px; }
+  .modal p{ font-size:12.5px; color:#6B7280; margin:4px 0 14px; }
+  .opt{ display:flex; align-items:center; gap:10px; padding:11px 12px; border:1.5px solid #E5E7EB; border-radius:12px; margin-bottom:8px; cursor:pointer; font-size:13.5px; font-weight:500; }
+  .opt input{ width:auto; accent-color:#DC2626; }
+  .opt.active{ border-color:#DC2626; background:#FEF2F2; }
+  .btn-row{ display:flex; gap:10px; margin-top:14px; }
+  .btn-row button{ flex:1; padding:11px; border-radius:10px; font-weight:700; cursor:pointer; font-size:13.5px; }
+  .btn-cancel{ background:#fff; border:1px solid #E5E7EB; color:#111827; }
+  .btn-do-reset{ background:#DC2626; border:none; color:#fff; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="home.html" class="active">Home</a>
+  <a href="tambah.html">Catat Transaksi</a>
+  <a href="riwayat.html">Riwayat</a>
+  <a href="anggaran.html">Anggaran</a>
+  <a href="about.html">About</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <div><h1>uMoney</h1><p id="greet">Selamat datang, Firda </p></div>
+    <div class="head-right">
+      <button class="btn-reset" onclick="openReset()">↺ Reset</button>
+      <div class="profile"><span class="avatar" id="avatar">F</span><span id="namaProfil">Firda</span></div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <span class="hero-label">Total Saldo Kamu</span>
+    <b class="hero-saldo" id="saldoHero">Rp 0</b>
+    <div class="hero-stats">
+      <div><span>Masuk</span><b id="masukHero">Rp 0</b></div>
+      <div><span>Keluar</span><b id="keluarHero">Rp 0</b></div>
+      <div><span>Terpakai</span><b id="persenHero">0%</b></div>
+    </div>
+    <div class="hero-bar"><div class="hero-fill" id="barHero" style="width:0%"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>Tambah Pemasukan</h3>
+    <p>Ada pemasukan hari ini? Catat yukkk!
+    </p>
+    <label>Nominal</label>
+    <input id="nominal" type="number" placeholder="Rp 0">
+    <div class="row">
+      <div><label>Dari Mana</label><input id="sumber" placeholder="Contoh: Gaji"></div>
+      <div><label>Tanggal</label><input id="tanggal" type="date"></div>
+    </div>
+    <button class="btn-green" onclick="simpanPemasukan()">Simpan Pemasukan</button>
+  </div>
+
+  <div class="actions">
+    <a href="tambah.html">+ Transaksi</a>
+    <a href="anggaran.html">Buat Anggaran</a>
+    <a href="riwayat.html">Riwayat</a>
+  </div>
+
+<div class="card">
+  <div class="sec-head"><h3>Top Pengeluaran</h3><a class="link" href="riwayat.html">Riwayat ›</a></div>
+  <p style="margin-bottom:12px;">Bulan ini uang kamu paling banyak lari ke mana</p>
+  <div id="topList"></div>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden; border:none; box-shadow:0 14px 30px rgba(29,78,216,.18);">
+  <div style="background:linear-gradient(135deg,#0F2A6B,#1D4ED8,#3B82F6); color:#fff; padding:20px 22px 18px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:12px; font-weight:700; color:#DBEAFE;">TARGET TABUNGAN</span> 
+      <button type="button" id="btnUbahTarget" style="font-size:12px; font-weight:700; background:rgba(255,255,255,.20); color:#fff; border:none; padding:6px 11px; border-radius:999px; cursor:pointer;">Ubah Target</button>
+    </div>
+    <div style="font-size:11.5px; color:#DBEAFE; margin-top:12px;" id="targetBulanLabel">Bulan Ini</div>
+    <b id="targetTerkumpul" style="font-size:32px; display:block; margin-top:4px;">Rp 0</b>
+    <div style="display:flex; justify-content:space-between; font-size:12px; color:#DBEAFE;"><span id="targetPersen">0% tercapai</span><span>Target <b id="targetNominal" style="color:#fff;">Rp 0</b></span></div>
+    <div style="height:8px; background:rgba(255,255,255,.28); border-radius:99px; margin-top:10px; overflow:hidden;"><div id="targetBar" style="height:100%; background:#fff; width:0%;"></div></div>
+    <div id="targetSisa" style="font-size:12px; margin-top:10px; font-weight:600;">Belum ada target</div>
+  </div>
+  <div style="background:#fff; padding:16px 18px 18px;">
+    <label style="margin:0 0 8px; font-size:12.5px; display:block;">Nominal Tabungan</label>
+    <div style="display:flex; gap:8px;">
+      <button type="button" id="btnMinus" style="width:42px; height:44px; border-radius:12px; border:1.5px solid #FECACA; background:#FEF2F2; color:#DC2626; font-size:20px; font-weight:800; cursor:pointer;">−</button>
+      <input id="inputNabung" type="number" placeholder="Rp 0" style="flex:1; text-align:center; font-weight:700;">
+      <button type="button" id="btnPlus" style="width:42px; height:44px; border-radius:12px; border:1.5px solid #BBF7D0; background:#F0FDF4; color:#15803D; font-size:20px; font-weight:800; cursor:pointer;">+</button>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <button type="button" class="chipNabung" data-v="50000" style="flex:1; padding:8px; border-radius:999px; border:1px solid #E2E8F0; background:#F8FAFC; font-size:12px; font-weight:700; cursor:pointer;">50rb</button>
+      <button type="button" class="chipNabung" data-v="100000" style="flex:1; padding:8px; border-radius:999px; border:1px solid #E2E8F0; background:#F8FAFC; font-size:12px; font-weight:700; cursor:pointer;">100rb</button>
+      <button type="button" class="chipNabung" data-v="200000" style="flex:1; padding:8px; border-radius:999px; border:1px solid #E2E8F0; background:#F8FAFC; font-size:12px; font-weight:700; cursor:pointer;">200rb</button>
+      <button type="button" class="chipNabung" data-v="500000" style="flex:1; padding:8px; border-radius:999px; border:1px solid #E2E8F0; background:#F8FAFC; font-size:12px; font-weight:700; cursor:pointer;">500rb</button>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button type="button" id="btnTambah" style="flex:1; background:#16A34A; color:#fff; border:none; padding:12px; border-radius:12px; font-weight:800; cursor:pointer;">Simpan</button>
+      <button type="button" id="btnKurang" style="flex:1; background:#fff; color:#DC2626; border:1.5px solid #FECACA; padding:12px; border-radius:12px; font-weight:800; cursor:pointer;">Hapus</button>
+    </div>
+    <div id="targetLog" style="font-size:12px; color:#64748B; text-align:center; margin-top:10px;"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function fmt2(n){ return 'Rp ' + Number(n||0).toLocaleString('id-ID'); }
+  function userKey(){ return (localStorage.getItem('currentUser') || localStorage.getItem('user') || 'default'); }
+  function bulanKey(){ let d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+  function kTarget(){ return 'target_'+userKey()+'_'+bulanKey(); }
+  function kTab(){ return 'tabungan_'+userKey()+'_'+bulanKey(); }
+  function render(){
+    let target = Number(localStorage.getItem(kTarget())||0);
+    let tab = Number(localStorage.getItem(kTab())||0);
+    let persen = target>0 ? Math.min(100, Math.round(tab/target*100)) : 0;
+    let d=new Date();
+    document.getElementById('targetBulanLabel').textContent = 'Bulan Ini • ' + d.toLocaleDateString('id-ID',{month:'long', year:'numeric'});
+    document.getElementById('targetTerkumpul').textContent = fmt2(tab);
+    document.getElementById('targetNominal').textContent = fmt2(target);
+    document.getElementById('targetBar').style.width = persen+'%';
+    document.getElementById('targetPersen').textContent = persen+'% tercapai';
+    document.getElementById('targetSisa').textContent = target===0 ? 'Belum ada target • Klik Ubah Target' : (tab>=target ? 'Target tercapai! Keren banget.' : 'Sisa '+fmt2(target-tab)+' lagi');
+  }
+  document.getElementById('btnUbahTarget').addEventListener('click', function(){
+    let lama = localStorage.getItem(kTarget())||'';
+    let baru = prompt('Target nabung bulan ini berapa? (contoh 500000)', lama);
+    if(baru===null) return;
+    baru = Number(String(baru).replace(/[^0-9]/g,''));
+    if(!baru){ alert('Isi angka dulu'); return; }
+    localStorage.setItem(kTarget(), baru);
+    render();
+  });
+  document.getElementById('btnPlus').addEventListener('click', function(){
+    let inp=document.getElementById('inputNabung'); inp.value = Number(inp.value||0)+50000;
+  });
+  document.getElementById('btnMinus').addEventListener('click', function(){
+    let inp=document.getElementById('inputNabung'); inp.value = Math.max(0, Number(inp.value||0)-50000);
+  });
+  document.querySelectorAll('.chipNabung').forEach(function(b){
+    b.addEventListener('click', function(){ document.getElementById('inputNabung').value = b.getAttribute('data-v'); });
+  });
+  function simpan(mode){
+    let v = Number(document.getElementById('inputNabung').value||0);
+    if(!v){ alert('Isi nominal dulu'); return; }
+    let lama = Number(localStorage.getItem(kTab())||0);
+    let baru = mode==='tambah' ? lama+v : lama-v;
+    if(baru<0) baru=0;
+    localStorage.setItem(kTab(), baru);
+    document.getElementById('inputNabung').value='';
+    document.getElementById('targetLog').textContent = mode==='tambah' ? 'Berhasil nambah '+fmt2(v) : 'Berhasil ngurangin '+fmt2(v);
+    render();
+  }
+  document.getElementById('btnTambah').addEventListener('click', function(){ simpan('tambah'); });
+  document.getElementById('btnKurang').addEventListener('click', function(){ simpan('kurang'); });
+  render();
+})();
+</script></div>
+<div class="overlay" id="resetModal" onclick="if(event.target===this) closeReset()">
+  <div class="modal">
+    <h3>↺ Reset Data</h3>
+    <p>Pilih periode yang mau di-reset. Yang di-reset pindah ke Arsip, gak hilang permanen.</p>
+    <label>Periode Reset</label>
+    <label class="opt"><input type="radio" name="periode" value="hari" checked onclick="pilihPeriode(this)"> Hari Ini</label>
+    <label class="opt"><input type="radio" name="periode" value="minggu" onclick="pilihPeriode(this)"> Minggu Ini</label>
+    <label class="opt"><input type="radio" name="periode" value="bulan" onclick="pilihPeriode(this)"> Bulan Ini</label>
+    <label class="opt"><input type="radio" name="periode" value="tahun" onclick="pilihPeriode(this)"> Tahun Ini</label>
+    <label class="opt"><input type="radio" name="periode" value="semua" onclick="pilihPeriode(this)"> Semua Data</label>
+    <label>Tanggal Acuan</label>
+    <input type="date" id="resetTanggal">
+    <div style="font-size:11.5px; color:#9CA3AF; margin-top:6px;" id="resetInfo">Akan memindahkan transaksi tanggal 23 Nov 2026 ke Arsip.</div>
+    <label style="margin-top:12px;"><input type="checkbox" id="resetAnggaran" style="width:auto; accent-color:#DC2626;"> Sekalian reset Anggaran juga</label>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeReset()">Batal</button>
+      <button class="btn-do-reset" onclick="doReset()">Ya, Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let user = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'Firda';
+  document.getElementById('namaProfil').textContent = user;
+  document.getElementById('avatar').textContent = user.charAt(0).toUpperCase();
+  document.getElementById('greet').textContent = 'Selamat Datang, ' + user;
+  document.getElementById('tanggal').valueAsDate = new Date();
+  document.getElementById('resetTanggal').valueAsDate = new Date();
+  let fmt = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
+  function getData(){ try{ return JSON.parse(localStorage.getItem('uMoney_' + user)) || []; }catch(e){ return []; } }
+  function saveData(d){ localStorage.setItem('uMoney_' + user, JSON.stringify(d)); }
+  function setText(id, txt){ let el = document.getElementById(id); if(el) el.textContent = txt; }
+  function setHTML(id, html){ let el = document.getElementById(id); if(el) el.innerHTML = html; }
+
+  // FIX 1: renderHome dikasih pengaman null + dipanggil pas load, jadi saldo gak ilang
+  function renderHome(){
+    let data = getData();
+    let masuk = data.filter(i=>i.tipe==='Pemasukan').reduce((s,i)=> s + Number(i.jumlah||0),0);
+    let keluar = data.filter(i=>i.tipe!=='Pemasukan').reduce((s,i)=> s + Number(i.jumlah||0),0);
+    let sisa = masuk - keluar;
+    let persen = masuk>0 ? Math.min(100, Math.round(keluar/masuk*100)) : 0;
+    setText('saldoHero', fmt(sisa));
+    setText('masukHero', fmt(masuk));
+    setText('keluarHero', fmt(keluar));
+    setText('persenHero', persen + '%');
+    let bar = document.getElementById('barHero'); if(bar) bar.style.width = persen + '%';
+    // Elemen ini gak ada di HTML lu, jadi dikasih pengaman biar gak error
+    setText('saldoHeroSub', masuk===0 ? 'Belum ada transaksi • Catat dulu yuk' : persen>=80 ? 'Udah 80% kepake, rem dulu jajan-nya!' : persen>=50 ? 'Udah setengah kepake, kontrol ya' : 'Aman banget, masih ' + (100-persen) + '% tersisa');
+    let txList = document.getElementById('txList');
+    if(txList){
+      if(data.length===0){ txList.innerHTML = '<div class="empty"><div class="empty-big">🧾</div>Belum ada transaksi</div>'; }
+      else{
+        let last = [...data].reverse().slice(0,3);
+        txList.innerHTML = last.map(i=>{
+          let isMasuk = i.tipe==='Pemasukan';
+          return `<div class="tx"><div class="tx-left"><div class="tx-ico" style="background:${isMasuk?'#DCFCE7':'#FEE2E2'}">${isMasuk?'↓':'↑'}</div><div><b>${i.nama||i.kategori||'-'}</b><span>${i.kategori||''} • ${i.tanggal||''}</span></div></div><b style="color:${isMasuk?'#16A34A':'#DC2626'}">${isMasuk?'+':'-'} ${fmt(i.jumlah)}</b></div>`;
+        }).join('');
+      }
+    }
+    let agg = [];
+    try{ agg = JSON.parse(localStorage.getItem('anggaran_' + user)) || []; }catch(e){}
+    let aggEl = document.getElementById('anggaranList');
+    if(aggEl){
+      if(agg.length===0){ aggEl.innerHTML = '<div class="empty"><div class="empty-big">🎯</div>Belum ada anggaran<br><span style="font-size:12px;">Buat anggaran biar keuangan lebih terkontrol</span></div>'; }
+      else{
+        aggEl.innerHTML = agg.slice(0,3).map(a=>{
+          let terpakai = data.filter(i=>i.kategori===a.kategori && i.tipe!=='Pemasukan').reduce((s,i)=> s + Number(i.jumlah||0),0);
+          let p = a.limit>0 ? Math.min(100, Math.round(terpakai/a.limit*100)) : 0;
+          let warna = p>=100 ? '#DC2626' : p>=80 ? '#F59E0B' : '#2563EB';
+          return `<div class="anggaran-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between;"><b>${a.kategori}</b><span>${fmt(terpakai)} / ${fmt(a.limit)}</span></div><div class="bar"><div class="fill" style="width:${p}%; background:${warna};"></div></div></div></div>`;
+        }).join('');
+      }
+    }
+    updateResetInfo();
+    renderTopDanTarget();
+  }
+
+  // FIX 2: cegah double klik - tombol di-disable sebentar pas nyimpen
+  let lagiSimpan = false;
+  function simpanPemasukan(){
+    if(lagiSimpan) return;
+    let nominal = Number(document.getElementById('nominal').value);
+    let sumber = document.getElementById('sumber').value || 'Pemasukan';
+    let tanggal = document.getElementById('tanggal').value || new Date().toISOString().slice(0,10);
+    if(!nominal) return alert('Isi nominal dulu');
+    lagiSimpan = true;
+    let data = getData();
+    data.push({ tipe:'Pemasukan', nama:sumber, kategori:'Pemasukan', jumlah:nominal, tanggal });
+    saveData(data);
+    document.getElementById('nominal').value=''; document.getElementById('sumber').value='';
+    renderHome();
+    setTimeout(()=>{ lagiSimpan = false; }, 500);
+  }
+
+  function openReset(){ document.getElementById('resetModal').classList.add('show'); updateResetInfo(); }
+  function closeReset(){ document.getElementById('resetModal').classList.remove('show'); }
+  function pilihPeriode(el){ document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active')); el.closest('.opt').classList.add('active'); updateResetInfo(); }
+  function updateResetInfo(){
+    let p = document.querySelector('input[name="periode"]:checked')?.value || 'hari';
+    let t = document.getElementById('resetTanggal').value || new Date().toISOString().slice(0,10);
+    let d = new Date(t);
+    let teks = '';
+    if(p==='hari') teks = 'Akan memindahkan transaksi tanggal ' + d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) + ' ke Arsip.';
+    if(p==='minggu'){ let awal = new Date(d); awal.setDate(d.getDate() - ((d.getDay()+6)%7)); let akhir = new Date(awal); akhir.setDate(awal.getDate()+6); teks = 'Akan memindahkan transaksi ' + awal.toLocaleDateString('id-ID',{day:'numeric',month:'short'}) + ' - ' + akhir.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) + ' ke Arsip.'; }
+    if(p==='bulan') teks = 'Akan memindahkan semua transaksi bulan ' + d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}) + ' ke Arsip.';
+    if(p==='tahun') teks = 'Akan memindahkan semua transaksi tahun ' + d.getFullYear() + ' ke Arsip.';
+    if(p==='semua') teks = 'Akan memindahkan SEMUA transaksi ke Arsip.';
+    setText('resetInfo', teks);
+  }
+  document.getElementById('resetTanggal').addEventListener('change', updateResetInfo);
+
+  function doReset(){
+    let p = document.querySelector('input[name="periode"]:checked')?.value || 'hari';
+    let t = document.getElementById('resetTanggal').value || new Date().toISOString().slice(0,10);
+    let d = new Date(t);
+    let data = getData();
+    let hapus = (item) => {
+      if(!item.tanggal) return p==='semua';
+      let it = new Date(item.tanggal);
+      if(p==='semua') return true;
+      if(p==='hari') return item.tanggal === t;
+      if(p==='bulan') return it.getFullYear()===d.getFullYear() && it.getMonth()===d.getMonth();
+      if(p==='tahun') return it.getFullYear()===d.getFullYear();
+      if(p==='minggu'){ let awal = new Date(d); awal.setDate(d.getDate() - ((d.getDay()+6)%7)); awal.setHours(0,0,0,0); let akhir = new Date(awal); akhir.setDate(awal.getDate()+6); akhir.setHours(23,59,59,999); return it >= awal && it <= akhir; }
+      return false;
+    };
+    let yangDiReset = data.filter(i=>hapus(i));
+    let sisaData = data.filter(i=>!hapus(i));
+    let jmlHapus = yangDiReset.length;
+    if(jmlHapus===0 && !document.getElementById('resetAnggaran').checked) return alert('Gak ada transaksi di periode itu.');
+    if(!confirm('Yakin reset ' + jmlHapus + ' transaksi? Nanti masuk ke Arsip, gak hilang permanen.')) return;
+    let arsipLama = [];
+    try{ arsipLama = JSON.parse(localStorage.getItem('arsip_' + user)) || []; }catch(e){}
+    let arsipBaru = yangDiReset.map(i=>({ ...i, arsipDari:'Reset ' + p + ' • ' + t, diarsipkanPada:new Date().toISOString().slice(0,10) }));
+    localStorage.setItem('arsip_' + user, JSON.stringify([...arsipLama, ...arsipBaru]));
+    saveData(sisaData);
+    if(document.getElementById('resetAnggaran').checked){
+      let aggLama = [];
+      try{ aggLama = JSON.parse(localStorage.getItem('arsip_anggaran_' + user)) || []; }catch(e){}
+      let agg = JSON.parse(localStorage.getItem('anggaran_' + user) || '[]');
+      localStorage.setItem('arsip_anggaran_' + user, JSON.stringify([...aggLama, ...agg]));
+      localStorage.removeItem('anggaran_' + user);
+    }
+    closeReset();
+    renderHome();
+    alert('Beres, ' + jmlHapus + ' transaksi pindah ke Arsip. Cek di Riwayat > Arsip.');
+  }
+
+  // FIX 3: renderTopDanTarget dipindah keluar dari doReset(), biar bisa dipanggil
+  function renderTopDanTarget(){
+    let data = getData();
+    let keluar = data.filter(i=>i.tipe!=='Pemasukan');
+    let el = document.getElementById('topList');
+    if(!el) return;
+    if(keluar.length===0){
+      el.innerHTML = '<div class="empty"><div style="width:48px;height:48px;margin:0 auto 10px;background:#EFF6FF;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#2563EB;font-weight:800;font-size:18px;">Rp</div>Belum ada pengeluaran<br><span style="font-size:12px;">Catat pengeluaran dulu biar keliatan borosnya di mana</span></div>';
+    } else {
+      let total = keluar.reduce((s,i)=> s + Number(i.jumlah||0),0);
+      let map = {};
+      keluar.forEach(i=>{ let k = i.kategori || i.nama || 'Lainnya'; map[k] = (map[k]||0) + Number(i.jumlah||0); });
+      let ranking = Object.entries(map).sort((a,b)=> b[1]-a[1]).slice(0,3);
+      let colors = ['#1D4ED8','#3B82F6','#93C5FD'];
+      el.innerHTML = ranking.map(([kat, nominal], idx)=>{
+        let p = total>0 ? Math.round(nominal/total*100) : 0;
+        return `<div style="padding:11px 0;border-bottom:1px solid #F1F5F9;"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;gap:10px;align-items:center;"><span style="width:28px;height:28px;border-radius:9px;background:#EFF6FF;color:#1D4ED8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;">${idx+1}</span><b style="font-size:14px;">${kat}</b></div><div style="text-align:right;"><b style="font-size:14px;">${fmt(nominal)}</b><span style="display:block;font-size:11.5px;color:#94A3B8;">${p}% dari total</span></div></div><div class="bar" style="margin-top:8px;"><div class="fill" style="width:${p}%;background:${colors[idx]};"></div></div></div>`;
+      }).join('') + `<div style="font-size:12px;color:#94A3B8;margin-top:10px;">Total keluar bulan ini: <b style="color:#0F172A;">${fmt(total)}</b></div>`;
+    }
+  }
+
+  function logout(){ sessionStorage.removeItem('currentUser'); localStorage.removeItem('currentUser'); location.href='login.html'; }
+
+  // FIX UTAMA: panggil render pas halaman pertama kali dibuka
+  renderHome();
+</script>
+<style>
+.navbar{ background: #fff !important; border: 1.5px solid #111 !important; box-shadow: 6px 6px 0 #111 !important; position: sticky !important; top: 12px !important; z-index: 999 !important; border-radius: 999px !important; }
+.navbar a{ padding: 7px 12px !important; border-radius: 999px !important; font-weight: 700 !important; }
+.navbar a.active{ background: #111 !important; color: #fff !important; }
+.navbar a.logout{ background: #ef4444 !important; color: #fff !important; }
+h1, .header h2, .judul{ color: #111 !important; font-weight: 900 !important; letter-spacing: -1px !important; }
+h1 span, .header h2 span{ color: #2563eb !important; }
+.saldo-card, .card-saldo, .balance-card{ background: #111 !important; border: 2px solid #111 !important; border-left: 8px solid #2563eb !important; box-shadow: 6px 6px 0 #2563eb !important; }
+.saldo-card > div > div, .saldo-card div div{ background: #fff !important; color: #111 !important; border: none !important; border-radius: 12px !important; }
+.saldo-card div div:nth-child(1) b, .saldo-card div div:nth-child(1) h3{ color: #2563eb !important; }
+.saldo-card div div:nth-child(2) b, .saldo-card div div:nth-child(2) h3{ color: #ef4444 !important; }
+.saldo-card div div:nth-child(3) b, .saldo-card div div:nth-child(3) h3{ color: #111 !important; }
+.saldo-card p, .saldo-card span, .saldo-card h2, .saldo-card h3{ color: #fff !important; }
+.card:has(input){ background: #fff !important; border: 1.5px solid #111 !important; box-shadow: 6px 6px 0 #e5e7eb !important; border-radius: 16px !important; }
+input, select{ border: 1.5px solid #111 !important; border-radius: 10px !important; background: #fff !important; padding: 13px 14px !important; }
+input:focus, select:focus{ outline: none !important; border-color: #2563eb !important; box-shadow: 3px 3px 0 #2563eb !important; }
+label{ font-weight: 800 !important; color: #111 !important; }
+button, .btn, input[type="submit"]{ background: #2563eb !important; color: #fff !important; border: 1.5px solid #111 !important; border-radius: 12px !important; box-shadow: 4px 4px 0 #111 !important; font-weight: 800 !important; transition: 0.15s !important; }
+button:hover, .btn:hover{ transform: translate(-1px, -1px) !important; box-shadow: 6px 6px 0 #111 !important; }
+button:active, .btn:active{ transform: translate(2px, 2px) !important; box-shadow: 2px 2px 0 #111 !important; }
+</style>
+</body>
+</body>
+</html>
